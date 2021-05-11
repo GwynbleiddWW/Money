@@ -12,5 +12,4 @@ public class Tax {
     public long getAll() {
         return sums.sum();
     }
-
 }

@@ -11,8 +11,5 @@ public class Main {
             new Count(tax).start();
         }
         System.out.println(tax.getAll());
-
     }
-
-
 }
