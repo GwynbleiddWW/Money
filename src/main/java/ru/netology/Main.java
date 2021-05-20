@@ -1,15 +1,32 @@
 package ru.netology;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.LongAdder;
+
 public class Main {
-    private static final int MAX_SUPERMARKETS = 3;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        LongAdder adder = new LongAdder();
+        int marketCount = 3;
+        ExecutorService executor = Executors.newCachedThreadPool();
 
-        Tax tax = new Tax();
+        for (int i = 0; i < marketCount; i++)
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    int value = ThreadLocalRandom.current().nextInt(150, 1500);
+                    adder.add(value);
+                    adder.add(value * 2L);
+                    adder.add(value * 10L);
+                    System.out.println(adder);
+                }
+            });
 
-        for (int i = 0; i < MAX_SUPERMARKETS; i++) {
-            new Count(tax).start();
-        }
-        System.out.println(tax.getAll());
+        executor.execute(() -> {
+            System.out.println("Выручка: " + adder.sum() + " рублей.");
+        });
+        executor.shutdown();
     }
 }
