@@ -10,8 +10,12 @@ public class Market extends Thread {
     }
 
     public void run() {
-        long value = ThreadLocalRandom.current().nextLong(150, 1500);
-        long sumOfMoney = value + value * value + value * value;
+        long value = ThreadLocalRandom.current().nextLong(150, 20000);
+        long[] money = {value + value * value + value * value + value};
+        long sumOfMoney = 0;
+        for (long moneyValue : money) {
+            sumOfMoney = +moneyValue;
+        }
         sumOfMarketMoney.addAdder(sumOfMoney);
     }
 }
